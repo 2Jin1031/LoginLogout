@@ -1,9 +1,11 @@
 package dev.zkffl0.LoginLogout.controller;
 
 import dev.zkffl0.LoginLogout.domain.Member;
+import dev.zkffl0.LoginLogout.dto.UpdatePasswordDto;
 import dev.zkffl0.LoginLogout.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,6 +38,20 @@ public class MemberController {
 
         try {
             ResponseEntity.ok(memberService.findById(id)); // ResponseEntity.ok
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    @PostMapping("/update-password") // 로그인아이디멤버 찾고, passwordData, _password로 password 업데이트
+    public ResponseEntity<Optional<Member>> updatePassword(@RequestParam("loginId") String loginId, @RequestBody UpdatePasswordDto updatePasswordDto) {
+
+        try {
+            ResponseEntity
+                    .status(HttpStatus.CREATED)
+                    .body(memberService.updatePassword(loginId, updatePasswordDto));
         } catch (Exception e) {
             e.printStackTrace();
         }
